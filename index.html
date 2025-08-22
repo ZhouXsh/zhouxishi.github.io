@@ -1,11 +1,300 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>我的个人网站</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>你的姓名 - 简历</title>
+  <meta name="description" content="一份现代、可打印、响应式的中文简历模板（单文件HTML）。" />
+  <style>
+    /* ===== 设计主题（可按需微调） ===== */
+    :root {
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --brand: #2563eb;
+      --accent: #10b981;
+      --border: #e5e7eb;
+    }
+
+    /* ===== 全局与排版 ===== */
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink); background: var(--bg);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1,h2,h3 { margin: 0 0 .4rem; line-height: 1.2; }
+    h1 { font-size: 1.9rem; letter-spacing: .2px; }
+    h2 { font-size: 1.1rem; text-transform: uppercase; color: var(--muted); letter-spacing: .8px; }
+    h3 { font-size: 1rem; }
+    p { margin: .25rem 0 .5rem; }
+    ul { margin: .25rem 0 .75rem; padding-left: 1.1rem; }
+    li { margin: .2rem 0; }
+    small, .muted { color: var(--muted); }
+
+    /* ===== 布局 ===== */
+    .wrap { max-width: 1050px; margin: 24px auto; padding: 0 20px; }
+    .grid {
+      display: grid; gap: 16px;
+      grid-template-columns: 320px 1fr;
+      align-items: start;
+    }
+
+    /* 顶部名片 */
+    .hero { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: grid; gap: 16px; grid-template-columns: 1fr auto; align-items: center; }
+    .id { display: flex; flex-direction: column; gap: 4px; }
+    .title { font-weight: 600; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .tag { font-size: .78rem; padding: 4px 8px; border-radius: 999px; background: #eef2ff; color: #3730a3; border: 1px solid #e0e7ff; }
+
+    .contact { text-align: right; }
+    .contact a { display: inline-block; margin-left: 10px; }
+    .qr { width: 88px; height: 88px; border-radius: 8px; border: 1px dashed var(--border); display: grid; place-items: center; font-size: .75rem; color: var(--muted); }
+
+    /* 卡片 */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; }
+
+    /* 侧栏 */
+    .stack { display: grid; gap: 16px; }
+
+    /* 进度条（技能） */
+    .bar { height: 8px; background: #eef2f7; border-radius: 999px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--accent)); }
+
+    /* 时间线 */
+    .item { display: grid; grid-template-columns: 110px 1fr; gap: 10px; margin: 14px 0; }
+    .when { color: var(--muted); font-size: .9rem; }
+    .what h3 { margin-bottom: 4px; }
+    .badge { display: inline-block; font-size: .75rem; padding: 2px 8px; border-radius: 999px; background: #ecfeff; color: #155e75; border: 1px solid #cffafe; margin-left: 6px; }
+
+    /* 列表点样式轻量化 */
+    .bullets { list-style: none; padding-left: 0; }
+    .bullets li { position: relative; padding-left: 16px; }
+    .bullets li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
+
+    /* 页脚 */
+    footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 16px 0 24px; }
+
+    /* ===== 打印优化（A4 一页为目标） ===== */
+    @media print {
+      :root { --bg: #ffffff; }
+      body { background: #fff; }
+      .wrap { max-width: 900px; margin: 0; padding: 0; }
+      .hero, .card { box-shadow: none; border-color: #ddd; }
+      .qr { display: none; }
+      a { color: #000; text-decoration: none; }
+      .grid { grid-template-columns: 270px 1fr; gap: 12px; }
+      .tag, .badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      footer { display: none; }
+      @page { size: A4; margin: 12mm; }
+    }
+
+    /* ===== 小屏自适应 ===== */
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .contact { text-align: left; }
+    }
+  </style>
 </head>
 <body>
-  <h1>你好，我是zxs！</h1>
-  <p>这是我用 GitHub Pages 搭建的第一个网站 🎉</p>
+  <div class="wrap">
+    <!-- 顶部名片区 -->
+    <section class="hero">
+      <div class="id">
+        <h1>你的姓名 <span class="badge">求职岗位 / 职业标签</span></h1>
+        <div class="title">城市 · 3-5年经验 · 可到岗时间：两周内</div>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">数据分析</span>
+          <span class="tag">后端工程</span>
+          <span class="tag">NLP</span>
+        </div>
+      </div>
+      <div class="contact">
+        <div>
+          <a href="mailto:you@example.com">you@example.com</a>
+          <a href="tel:+86-13800000000">+86-138-0000-0000</a>
+          <a href="https://github.com/yourid" target="_blank" rel="noreferrer noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/yourid" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:12px; justify-content:flex-end; align-items:center;">
+          <div class="qr">可放作品集二维码</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主体两栏布局 -->
+    <section class="grid" style="margin-top:16px;">
+      <!-- 左侧栏 -->
+      <aside class="stack">
+        <div class="card">
+          <h2>个人概述</h2>
+          <p>一句话亮点：例如“专注数据产品与AIGC落地，负责从0-1搭建XX分析平台，落地节省人力成本30%”。
+          </p>
+          <ul class="bullets">
+            <li>核心技能与领域经验的 3–4 个要点；</li>
+            <li>代表性成绩（指标提升、成本下降、效率提升等可量化结果）；</li>
+            <li>关键技术栈与工具链；</li>
+            <li>行业经验/业务理解。</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>技能图谱</h2>
+          <div style="margin:.5rem 0;">
+            <div style="display:flex; justify-content:space-between; font-size:.9rem;">
+              <span>Python / 数据栈</span><span class="muted">熟练</span>
+            </div>
+            <div class="bar"><span style="width:88%;"></span></div>
+          </div>
+          <div style="margin:.6rem 0;">
+            <div style="display:flex; justify-content:space-between; font-size:.9rem;">
+              <span>后端（API / 服务化）</span><span class="muted">熟练</span>
+            </div>
+            <div class="bar"><span style="width:80%;"></span></div>
+          </div>
+          <div style="margin:.6rem 0;">
+            <div style="display:flex; justify-content:space-between; font-size:.9rem;">
+              <span>前端基础（HTML/CSS/JS）</span><span class="muted">良好</span>
+            </div>
+            <div class="bar"><span style="width:65%;"></span></div>
+          </div>
+          <div style="margin:.6rem 0;">
+            <div style="display:flex; justify-content:space-between; font-size:.9rem;">
+              <span>机器学习 / NLP</span><span class="muted">良好</span>
+            </div>
+            <div class="bar"><span style="width:70%;"></span></div>
+          </div>
+          <small class="muted">提示：改成你的真实技能，并尽量与岗位JD关键词匹配。</small>
+        </div>
+
+        <div class="card">
+          <h2>证书 & 奖项</h2>
+          <ul>
+            <li>阿里云ACP / 腾讯云TCA / AWS SAA（示例）</li>
+            <li>校级/市级竞赛一等奖 · 2023</li>
+            <li>开源项目贡献者：project-name</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>语言</h2>
+          <p>中文（母语）、English（工作沟通）、日语（N2）</p>
+        </div>
+
+        <div class="card">
+          <h2>个人链接</h2>
+          <ul>
+            <li>作品集：your-portfolio.site</li>
+            <li>博客：blog.example.com</li>
+            <li>开源主页：github.com/yourid</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- 右侧主栏 -->
+      <main class="stack">
+        <div class="card">
+          <h2>工作经历</h2>
+          <div class="item">
+            <div class="when">2023.08 — 至今</div>
+            <div class="what">
+              <h3>XX 科技 · 高级数据工程师 <span class="badge">全职</span></h3>
+              <p class="muted">部门/团队：数据平台 | 城市：上海</p>
+              <ul class="bullets">
+                <li>负责从 0–1 设计并落地 <strong>实时数据指标平台</strong>，服务日活 20w+；</li>
+                <li>主导搭建特征计算链路，<strong>计算成本降低 35%</strong>，查询 P95 时延降低 40%；</li>
+                <li>牵头推进 AIGC 报表助手，节省分析人力 <strong>~30%</strong>；</li>
+                <li>栈：Python、Flink、Airflow、ClickHouse、FastAPI、Docker、K8s。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="when">2021.07 — 2023.07</div>
+            <div class="what">
+              <h3>YY 互联网 · 后端工程师 <span class="badge">全职</span></h3>
+              <p class="muted">部门/团队：增长平台 | 城市：杭州</p>
+              <ul class="bullets">
+                <li>拆解并重构用户画像服务，支持 50+ 业务策略调用；</li>
+                <li>建设统一埋点与指标口径，<strong>活动转化率 +12%</strong>；</li>
+                <li>推动灰度发布与回滚方案，平均故障恢复 <strong>&lt; 5 min</strong>。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>项目经历</h2>
+          <div class="item">
+            <div class="when">2024</div>
+            <div class="what">
+              <h3>智能报表问答助手（企业内） <span class="badge">负责人</span></h3>
+              <ul class="bullets">
+                <li>将业务语句解析为 SQL + 指标口径，自动生成图表与结论；</li>
+                <li>接入权限/血缘系统，<strong>降低误用率 60%</strong>；</li>
+                <li>上线三个月覆盖 6 个部门，<strong>日均调用 3k+</strong>。</li>
+              </ul>
+              <p class="muted">栈：FastAPI、OpenAI/本地LLM、PG/CH、Grafana、K8s</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="when">2023</div>
+            <div class="what">
+              <h3>埋点与指标治理平台 <span class="badge">核心开发</span></h3>
+              <ul class="bullets">
+                <li>字典化指标 & 自动血缘，减少重复指标 25%；</li>
+                <li>基于模板驱动的埋点校验，问题发现提前至开发阶段。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>教育背景</h2>
+          <div class="item">
+            <div class="when">2017 — 2021</div>
+            <div class="what">
+              <h3>某某大学 · 计算机科学与技术（本科）</h3>
+              <p class="muted">主修：数据结构、数据库、操作系统、机器学习、分布式系统</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>出版 / 论文（可选）</h2>
+          <ul>
+            <li>第一作者，《面向增长分析的指标体系设计》，InfoQ 专栏，2024</li>
+            <li>共同作者，“Lightweight X for Y”，某学术会议，2023</li>
+          </ul>
+        </div>
+      </main>
+    </section>
+
+    <footer>
+      本模板为单文件HTML，可直接打印/导出PDF。建议控制在一页内，突出可量化成果与岗位匹配度。
+    </footer>
+  </div>
+
+  <!-- 可选：结构化数据，利于搜索展示（改成你的真实信息） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "你的姓名",
+    "jobTitle": "目标岗位",
+    "email": "you@example.com",
+    "telephone": "+86-13800000000",
+    "url": "https://your-portfolio.site",
+    "sameAs": [
+      "https://github.com/yourid",
+      "https://www.linkedin.com/in/yourid"
+    ],
+    "address": {"@type": "PostalAddress", "addressLocality": "上海"}
+  }
+  </script>
 </body>
 </html>
